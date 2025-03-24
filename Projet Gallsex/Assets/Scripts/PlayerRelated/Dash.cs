@@ -38,8 +38,18 @@ public class Dash : MonoBehaviour
         _inputYRightStick = Input.GetAxisRaw("Vertical");
 
         #region La vallé des IF
+
+        bool controllerDash = Input.GetButtonDown("Dash") && _inputXRightStick > 0.5 ||
+                              Input.GetButtonDown("Dash") && _inputXRightStick < -0.5 ||
+                              Input.GetButtonDown("Dash") && _inputYRightStick > 0.5 ||
+                              Input.GetButtonDown("Dash") && _inputYRightStick < -0.5;
+
+        bool keyboardDash = Input.GetButtonDown("KDash") && _inputXRightStick > 0.5 ||
+                            Input.GetButtonDown("KDash") && _inputXRightStick < -0.5 ||
+                            Input.GetButtonDown("KDash") && _inputYRightStick > 0.5 ||
+                            Input.GetButtonDown("KDash") && _inputYRightStick < -0.5;
         
-        if (Input.GetButtonDown("Dash") && _inputXRightStick > 0.5 ||Input.GetButtonDown("Dash") && _inputXRightStick < -0.5 || Input.GetButtonDown("Dash") && _inputYRightStick > 0.5 || Input.GetButtonDown("Dash") && _inputYRightStick < -0.5)
+        if (controllerDash || keyboardDash)
         {
             if (_canDash == 0f)
             { 
