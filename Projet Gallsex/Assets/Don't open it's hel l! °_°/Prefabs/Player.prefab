@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2739a106b45d2b246a8433067c0911c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerController: {fileID: 0}
   playerTr: {fileID: 7178299340679101404}
   dash: {fileID: 3653358722695380688, guid: ab313b6a6fb69f84ca309bd82ba4007c, type: 3}
   dashVFXRen: {fileID: 3653358722695380689, guid: ab313b6a6fb69f84ca309bd82ba4007c, type: 3}
@@ -52,16 +53,22 @@ MonoBehaviour:
   landing: {fileID: 3103397541079787081, guid: 7d27e55e30a5ce84695a86cc30e76124, type: 3}
   wallJump: {fileID: 78898489290633369, guid: 19fe82f5ab10c3b4f9913117c89c2fae, type: 3}
   wallSlide: {fileID: 2604729156007950737}
+  wallSlideLeft: {fileID: 0}
   run: {fileID: 1030313107187109779}
   jump: {fileID: 5225242303262374420, guid: 258be6e99b742ea4b9dbf925c2b5c8f2, type: 3}
+  audio: {fileID: 0}
+  runAudioObj: {fileID: 0}
+  wallSlideAudioObj: {fileID: 0}
   isDashing: 0
   isLanding: 0
   isWallJumpingRight: 0
   isWallJumpingLeft: 0
   isWallSliding: 0
+  isWallSlidingLeft: 0
   isRunning: 0
   isJumping: 0
   inputAngle: 0
+  inputLeftAngle: 0
 --- !u!1 &2317719070556171318
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,6 +174,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerController: {fileID: 1443644433}
   vfxManager: {fileID: 1252955933955875670}
+  player: {fileID: 0}
+  countdown: 0
+  freezeTime: 0.2
 --- !u!1 &6259068355486683036
 GameObject:
   m_ObjectHideFlags: 0
@@ -497,8 +507,10 @@ MonoBehaviour:
   anim: {fileID: 410723800}
   dash: {fileID: 1195328312}
   groundCheckTr: {fileID: 7824335608248257836}
-  _vfxManager: {fileID: 1252955933955875670}
+  vfxManager: {fileID: 0}
+  audioManager: {fileID: 0}
   airTime: 0
+  playerPos: {x: 0, y: 0}
   inputX: 0
   inputY: 0
   isGrounded: 0
@@ -517,9 +529,12 @@ MonoBehaviour:
   isRising: 0
   isDashingDown: 0
   celesteModeOn: 0
+  mouseControlModeOn: 0
   lookAheadReset: 0
   wallSliding: 0
   wallJumping: 0
+  levelFinished: 0
+  levelBeginning: 0
 --- !u!114 &1195328312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -537,6 +552,7 @@ MonoBehaviour:
   playerController: {fileID: 1443644433}
   _vfxManager: {fileID: 1252955933955875670}
   _canDash: 0
+  _mc: {fileID: 0}
   isDashing: 0
 --- !u!1001 &1761171661050961188
 PrefabInstance:

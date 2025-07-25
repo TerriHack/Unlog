@@ -57,7 +57,11 @@ public class CameraBoss : MonoBehaviour
             if(bossMovement.isGone) bossMovement.BossTeleportation();
         }
         else if (phaseCounter == 2) CameraPhase2();
-        else if (phaseCounter == 1) CameraPhase1();
+        else if (phaseCounter == 1)
+        {
+            player.GetComponent<Dash>()._mc = _camTr.GetComponent<Camera>();
+            CameraPhase1();
+        }
 
     }
 

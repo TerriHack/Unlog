@@ -39,23 +39,17 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-
-        Debug.Log( PlayerPrefs.GetFloat("MasterVolume") + "master");
-        Debug.Log( PlayerPrefs.GetFloat("MusicVolume") + "music");
-        Debug.Log( PlayerPrefs.GetFloat("PlayerVolume") + "sound" );
-        Debug.Log( PlayerPrefs.GetFloat("AmbientVolume") + "ambience");
-        Debug.Log( PlayerPrefs.GetInt("SpikesOn") + "Spikes");
-        Debug.Log( PlayerPrefs.GetInt("resWidth") + "width");
-        Debug.Log( PlayerPrefs.GetInt("resHeight") + "height");
-        Debug.Log(PlayerPrefs.GetInt("Quality") + "quality");
-        Debug.Log(PlayerPrefs.GetInt("isFullscreen") + "fullscreen");
-        
         if (SceneManager.GetActiveScene().name == "Main_Menu_Scene")
         {
             timerActive = false;
             currentTime = 0;
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = false;
         }
-        else timerActive = true;
+        else
+        {
+            timerActive = true;
+        }
         
         if (timerActive)
         {

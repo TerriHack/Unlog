@@ -26,7 +26,8 @@ public class cinematicBoss : MonoBehaviour
     private bool beforeCine;
     private GameManager gm;
     private MusicDisplayer mD;
-
+    public Dash dash;
+    
     private void Start()
     {
         gm = GameObject.FindWithTag("GameManager").GetComponent<GameManager>();
@@ -51,6 +52,7 @@ public class cinematicBoss : MonoBehaviour
     {
         if (col.CompareTag("Player"))
         {
+            dash = col.GetComponent<Dash>();
             StartCoroutine(Cinematic());
         }
     }
@@ -101,6 +103,6 @@ public class cinematicBoss : MonoBehaviour
 
         yield return new WaitForSeconds(1);
         deathScreen.SetActive(true);
-
+        dash._mc = Camera.current;
     }
 }

@@ -20,6 +20,7 @@ public class PlayerBetterController : MonoBehaviour
 
     #region Public float
     public float airTime;
+    public Vector2 playerPos;
     #endregion
     
     #region Private float
@@ -54,6 +55,7 @@ public class PlayerBetterController : MonoBehaviour
     public bool isRising;
     public bool isDashingDown;
     public bool celesteModeOn;
+    public bool mouseControlModeOn;
     public bool lookAheadReset;
     public bool wallSliding;
     public bool wallJumping;
@@ -94,10 +96,18 @@ public class PlayerBetterController : MonoBehaviour
     
     void Update()
     {
+        playerPos = transform.position;
+        
         #region Inputs Left Stick
         inputX = Input.GetAxisRaw("Horizontal");
         inputY = Input.GetAxisRaw("Vertical");
         #endregion
+        
+        if (Input.GetButtonDown("Saut"))
+        {
+            dash.cursor.gameObject.SetActive(false);
+        }
+      
         
         //This section is hell don't trespass
         #region La vallé des IF
@@ -121,6 +131,12 @@ public class PlayerBetterController : MonoBehaviour
         }
 
         if (_coyoteGrounded && Input.GetButtonDown("Saut") || isJumping && Input.GetButtonDown("Saut"))
+        {
+            _jumpTime = Time.time;
+            isJumping = false;
+        }
+        
+        if (_coyoteGrounded && Input.GetKeyDown(KeyCode.Space) || isJumping && Input.GetKeyDown(KeyCode.Space))
         {
             _jumpTime = Time.time;
             isJumping = false;
@@ -168,6 +184,12 @@ public class PlayerBetterController : MonoBehaviour
                 vfxManager.isWallJumpingLeft = true;
             }
             else if(inputX < 0f && Input.GetButtonDown("Saut")) vfxManager.isWallJumpingRight = true;
+            
+            if (inputX > 0f && Input.GetKeyDown(KeyCode.Space))
+            {
+                vfxManager.isWallJumpingLeft = true;
+            }
+            else if(inputX < 0f && Input.GetKeyDown(KeyCode.Space)) vfxManager.isWallJumpingRight = true;
 
             #region Animation Related
             _waitCounter = playerData.waitTime;
@@ -184,6 +206,7 @@ public class PlayerBetterController : MonoBehaviour
         else wallJumping = false;
 
         if (Input.GetButton("Saut") && Time.time - _jumpTime < playerData.nuancerDuration && !isGrounded || Input.GetButton("Saut") && Time.time - _jumpTime < playerData.nuancerDuration && _coyoteGrounded) _isNuancing = true;
+        if (Input.GetKey(KeyCode.Space) && Time.time - _jumpTime < playerData.nuancerDuration && !isGrounded || Input.GetKey(KeyCode.Space) && Time.time - _jumpTime < playerData.nuancerDuration && _coyoteGrounded) _isNuancing = true;
 
         if (rb.velocity.x > 0.3f) isMoving = true;
         else if(rb.velocity.x < -0.3f) isMoving = true;

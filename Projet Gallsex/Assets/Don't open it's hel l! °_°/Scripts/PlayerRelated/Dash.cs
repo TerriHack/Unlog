@@ -10,16 +10,20 @@ public class Dash : MonoBehaviour
     [SerializeField] private PlayerControllerData playerData;
     [SerializeField] private PlayerBetterController playerController;
     [SerializeField] private VFXManager _vfxManager;
+    public Transform cursor;
 
     private float _inputX;
     private float _inputY;
     private float _inputXRightStick; 
     private float _inputYRightStick; 
+    private Vector2 _mouseScreenPos; 
+    private Vector2 _mouseWorldPos; 
     public float _canDash;
     private float _dashDelay;
     private float _dashAnimCounter;
     private float _dashCooldownCounter;
-    
+
+    public Camera _mc;
     private Vector2 _playerPos;
     private Vector2 _direction;
     
@@ -36,14 +40,34 @@ public class Dash : MonoBehaviour
         _inputY = Input.GetAxisRaw("Mouse Y");
         _inputXRightStick = Input.GetAxisRaw("Horizontal");
         _inputYRightStick = Input.GetAxisRaw("Vertical");
-
+        _mouseScreenPos = Input.mousePosition;
+        _mouseWorldPos = _mc.ScreenToWorldPoint(_mouseScreenPos);
+        cursor.position = _mouseWorldPos;
+        cursor.LookAt(playerController.playerPos);
+        
         #region La vallé des IF
         
         if (Input.GetButtonDown("Dash") && _inputXRightStick > 0.5 ||Input.GetButtonDown("Dash") && _inputXRightStick < -0.5 || Input.GetButtonDown("Dash") && _inputYRightStick > 0.5 || Input.GetButtonDown("Dash") && _inputYRightStick < -0.5)
         {
+            cursor.gameObject.SetActive(false);
             if (_canDash == 0f)
             { 
                 playerController.celesteModeOn = true;
+                _dashDelay = playerData.dashTime;
+                _dashAnimCounter = playerData.dashDuration;
+                _dashCooldownCounter = playerData.dashCooldown;
+            }
+            
+            Flip();
+        }
+        
+        if (Input.GetMouseButtonDown(0))
+        {
+            cursor.gameObject.SetActive(true);
+            
+            if (_canDash == 0f)
+            { 
+                playerController.mouseControlModeOn = true;
                 _dashDelay = playerData.dashTime;
                 _dashAnimCounter = playerData.dashDuration;
                 _dashCooldownCounter = playerData.dashCooldown;
@@ -100,6 +124,7 @@ public class Dash : MonoBehaviour
     {
         if (playerController.celesteModeOn)_direction = new Vector2(_inputXRightStick, _inputYRightStick);
         else _direction = new Vector2(_inputX, _inputY);
+        if (playerController.mouseControlModeOn) _direction = _mouseWorldPos - playerController.playerPos;
 
         if (_canDash == 0f && !playerController.isTouchingFront && !playerController.isGrounded)
         {
@@ -123,7 +148,8 @@ public class Dash : MonoBehaviour
 
             playerController.celesteModeOn = false;
         }
-        
+
+        playerController.mouseControlModeOn = false;
     }
 
     private void Flip()
@@ -154,6 +180,12 @@ public class Dash : MonoBehaviour
     
     private void InputDirection()
     {
+        if (playerController.mouseControlModeOn)
+        {
+            _vfxManager.inputAngle = (Mathf.Atan2((_mouseWorldPos-playerController.playerPos).x, (_mouseWorldPos-playerController.playerPos).y) * Mathf.Rad2Deg) -90f;
+            return;
+        }
+        
         if (playerController.celesteModeOn)
         {
             _vfxManager.inputAngle = (Mathf.Atan2(_inputXRightStick, _inputYRightStick) * Mathf.Rad2Deg) -90f;

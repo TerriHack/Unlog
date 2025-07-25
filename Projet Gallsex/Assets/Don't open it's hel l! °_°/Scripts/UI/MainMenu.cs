@@ -114,18 +114,18 @@ public class MainMenu : MonoBehaviour
 
         if (canPress)
         {
-            if (Input.GetButtonDown("Jump") && _splashScreened)
+            if (Input.GetButtonDown("Jump") && _splashScreened || Input.GetKeyDown(KeyCode.KeypadEnter) && _splashScreened || Input.GetMouseButtonDown(0) && _splashScreened)
             {
                 StartCoroutine(SplashScreenToMain());
             }
         
-            if (Input.GetButtonDown("Cancel") && selectionMenuOn)
+            if (Input.GetButtonDown("Cancel") && selectionMenuOn || Input.GetKeyDown(KeyCode.Escape) && selectionMenuOn || Input.GetMouseButtonDown(1) && selectionMenuOn)
             {
                 StartCoroutine(CloseLevelSelectionMenu());
-            }else if(Input.GetButtonDown("Cancel") && optionMenuOn)
+            }else if(Input.GetButtonDown("Cancel") && optionMenuOn || Input.GetKeyDown(KeyCode.Escape) && optionMenuOn || Input.GetMouseButtonDown(1) && optionMenuOn)
             {
                 StartCoroutine(CloseOptionMenu());
-            }else if (Input.GetButtonDown("Cancel") && scoreMenuOn)
+            }else if (Input.GetButtonDown("Cancel") && scoreMenuOn || Input.GetKeyDown(KeyCode.Escape) && scoreMenuOn || Input.GetMouseButtonDown(1) && scoreMenuOn)
             {
                 CloseScoreMenu();
             }
@@ -209,7 +209,7 @@ public class MainMenu : MonoBehaviour
             lvlBoss.SetActive(true);
         }
 
-        if (Input.GetButtonDown("Pause") && scoreMenuOn)
+        if (Input.GetButtonDown("Pause") && scoreMenuOn || Input.GetKeyDown(KeyCode.Backspace) && scoreMenuOn)
         {
             ResetTimers();
             scoreMenuScript.SetTheScore();

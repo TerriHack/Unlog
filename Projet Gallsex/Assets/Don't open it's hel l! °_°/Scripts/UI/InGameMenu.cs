@@ -76,7 +76,7 @@ namespace UI
         }
         private void Update()
         {
-            if (Input.GetButtonDown("Pause"))
+            if (Input.GetButtonDown("Pause") || Input.GetKeyDown(KeyCode.Escape))
             {
                 if (_optionMenued)
                 {
@@ -95,15 +95,16 @@ namespace UI
                 
             }
 
-            if (Input.GetButtonDown("Cancel"))
+            if (Input.GetButtonDown("Cancel") || Input.GetKeyDown(KeyCode.Escape) && !_isPaused)
             {
+				EventSystem.current.SetSelectedGameObject(firstButtonSelected);
                 if (!_quitMenued && !_optionMenued)
                 {
                     Resume();
                 }
             }
             
-            if (Input.GetButtonDown("Cancel"))
+            if (Input.GetButtonDown("Cancel") || Input.GetKeyDown(KeyCode.Escape))
             {
                 if (_optionMenued)
                 {
