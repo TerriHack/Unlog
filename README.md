@@ -1,2 +1,2 @@
-# Gallsex
-GIT Projet platformer 2D 
+# Unlog
+First year platformer project
